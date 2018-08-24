@@ -64,11 +64,11 @@ circle {
     
 <script>
         (function() {
-  var url = "ldms.json";
+  var url = "https://www.nodus-ecosystem.com:3400/getData";
   
   //our JavaScript section starts and the first thing that happens is that we set the size of the area that we’re going to use for the chart and the margins;
   var margin = { top: 60, left: 60, bottom: 60, right: 60 } 
-  var height = 480, width = 980;
+  var height = 480, width = 1200;
   //format the time with minutes and seconds
   // var ft = d3.time.format("%M:%S");
   
@@ -176,11 +176,20 @@ circle {
       throw new Error("d3.json error");
     }
     else {
-      // var fastest = d3.min(data.map((item) => { return ft.parse(item.Time); }));
+
+      // TO SET THE AXIS DYNAMICALLY
+
+      var Xdekat = d3.min(data.map((item) => { return item.x; }));
+      var Xjauh = d3.max(data.map((item) => { return item.x; }));
+      var Ydekat = d3.min(data.map((item) => { return item.y; }));
+      var Yjauh = d3.max(data.map((item) => { return item.y; }));
+      // var Xjauh = d3.max(data.x);
+      // var Ydekat = d3.min(data.y);
+      // var Yjauh = d3.max(data.y);
       // var slowest = d3.max(data.map((item) => { return ft.parse(item.Time); }));
       
-      x.domain([0, 5]);
-      y.domain([5, 0]);
+      x.domain([Xdekat, Xjauh]);
+      y.domain([Yjauh, Ydekat]);
       //Add a "g" element that provides a reference point for adding our axes.
       svg.append("g")
           .attr("class", "x axis")
