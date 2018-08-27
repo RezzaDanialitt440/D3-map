@@ -1,6 +1,6 @@
 
   
-setInterval(Map,1000);
+setInterval(Map,2000);
 
 
 
@@ -10,7 +10,7 @@ function Map() {
 
   //our JavaScript section starts and the first thing that happens is that we set the size of the area that we’re going to use for the chart and the margins;
   var margin = { top: 60, left: 60, bottom: 60, right: 60 } 
-  var height = 480, width = 900;
+  var height = 480, width = 1200;
   
   var y = d3.scale.linear().range([0, height]);
   var x = d3.scale.linear().range([0, width]);
@@ -89,26 +89,8 @@ function Map() {
     }).html("");
   }
   
-  /* 
-  * This function is like click. 
-  * If we click in the circle we are transfering to another site
-  */
-  // function openEntry(d) {
-  //   if(d.URL) {
-  //     var win = window.open(d.URL, "_blank");
-  //     win.focus();
-  //   }
-  // }
+  var url = "https://www.nodus-ecosystem.com:3250/tag_dashinfo";
   
-  /* 
-  * d3.json takes the variable url and two more parameters
-  * if error, then throw it
-  * else map the time-date in the horizontal axis and the rank-position in the verticall axis
-  */
-
-// setInterval(function(){
-  var url = "https://www.nodus-ecosystem.com:3400/getData";
-  var url2 = "https://www.nodus-ecosystem.com:3250/reader_info";
 
   d3.json(url, (error, data) => {
     if(error) {
@@ -160,22 +142,52 @@ function Map() {
           .attr("fill","red")
 
 
-          //call the functions
+          
           .on("mouseover", showToolTip)
           .on("mouseout", hideToolTip)
-          // .on("click", openEntry);
+          
     }
-    // setTimeout(function(){
-    //   svg.remove();
-    // },900)
+    
     });
+    setTimeout(function(){
+      $("#scatterplotStats").remove();
+      console.log("div clear");
+    },1000)
+    
+    setTimeout(function(){
+      var newElement = document.createElement('div');
+      newElement.id = "scatterplotStats";
+      
+      var list = document.getElementById('bg');
+      list.appendChild(newElement);
+      console.log(newElement);
+      },1100)
+    
 
-
-
+    }
 
 
   // READER JSON
 
+  var y = d3.scale.linear().range([0, height]);
+  var x = d3.scale.linear().range([0, width]);
+
+  var svg = d3.select("#scatterplotStats").append("svg")
+      .attr("height", height + margin.top + margin.bottom)
+      .attr("width", width + margin.left + margin.right);
+  
+  svg.append("rect")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("fill", "blue")
+        .attr("fill-opacity", 0);
+  // It also adds a g element that provides a reference point for adding our axes.  
+  svg = svg.append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  var url2 = "https://www.nodus-ecosystem.com:3250/reader_info";
   d3.json(url2, (error, data2) => {
     if(error) {
       throw new Error("d3.json error");
@@ -196,35 +208,14 @@ function Map() {
           .attr("fill","green")
 
 
-          //call the functions
+ 
           .on("mouseover", showToolTip)
           .on("mouseout", hideToolTip)
-          // .on("click", openEntry);
+     
     }
-    // setTimeout(function(){
-    //   svg.remove();
-    // },900)
+   
   });
 
-setTimeout(function(){
-  $("#scatterplotStats").remove();
-  console.log("div clear");
-},800)
-
-setTimeout(function(){
-  var newElement = document.createElement('div');
-  newElement.id = "scatterplotStats";
-  
-  var list = document.getElementById('bg');
-  list.appendChild(newElement);
-  console.log(newElement);
-  },900)
 
 
 
-
-
-
-// },1000)
-
-}
