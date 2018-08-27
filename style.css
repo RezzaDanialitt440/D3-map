@@ -1,0 +1,53 @@
+    
+/* body {
+ background-color:lightgray;
+} */
+
+h1, h3, p{
+  text-align:center;
+}
+
+#scatterplot-stats {
+  text-align: center;
+}
+
+.axis {
+  fill: none;
+  stroke: #3A3A3A;
+}
+
+.axis text {
+  fill: #000;
+  stroke: none;
+}
+
+circle {
+  stroke: red;
+}
+
+reader {
+  stroke: aquamarine;
+}
+
+.node circle:hover {
+  cursor: pointer;
+}
+
+.tooltip {
+  position: absolute;
+  padding: 5px;
+  box-sizing: border-box;
+  background-color: #000;
+  color: #fff;
+}
+
+#bg{
+
+  background-image: url(FloorPlan.svg);
+  background-size: cover;
+  margin: 60px;
+  width: 980px;
+  height: 460px;
+  
+  
+}
