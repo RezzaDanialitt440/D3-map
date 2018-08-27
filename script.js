@@ -1,9 +1,13 @@
 
   
-(function() {
-  var url = "https://www.nodus-ecosystem.com:3250/tag_dashinfo";
-  var url2 = "https://www.nodus-ecosystem.com:3250/reader_info";
+setInterval(Map,1000);
+
+
+
+
+function Map() {
   
+
   //our JavaScript section starts and the first thing that happens is that we set the size of the area that we’re going to use for the chart and the margins;
   var margin = { top: 60, left: 60, bottom: 60, right: 60 } 
   var height = 480, width = 900;
@@ -26,7 +30,7 @@
 * and appends an svg object to it of the size 
 * that we have set up with our width, height and margin’s.
 */
-  var svg = d3.select("#scatterplot-stats").append("svg")
+  var svg = d3.select("#scatterplotStats").append("svg")
       .attr("height", height + margin.top + margin.bottom)
       .attr("width", width + margin.left + margin.right);
   
@@ -36,16 +40,16 @@
         .attr("x", 0)
         .attr("y", 0)
         .attr("fill", "blue")
-        .attr("fill-opacity", 0.1);
+        .attr("fill-opacity", 0);
   // It also adds a g element that provides a reference point for adding our axes.  
   svg = svg.append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
   
   //declair the tooltip
-  var tooltip = d3.select("#scatterplot-stats").append("div")
+  var tooltip = d3.select("#scatterplotStats").append("div")
       .attr("class", "tooltip");
 
-  var reader = d3.select("#scatterplot-stats").append("div")
+  var reader = d3.select("#scatterplotStats").append("div")
       .attr("class", "reader");
   
   
@@ -101,6 +105,11 @@
   * if error, then throw it
   * else map the time-date in the horizontal axis and the rank-position in the verticall axis
   */
+
+// setInterval(function(){
+  var url = "https://www.nodus-ecosystem.com:3400/getData";
+  var url2 = "https://www.nodus-ecosystem.com:3250/reader_info";
+
   d3.json(url, (error, data) => {
     if(error) {
       throw new Error("d3.json error");
@@ -156,8 +165,14 @@
           .on("mouseout", hideToolTip)
           // .on("click", openEntry);
     }
-    
-  });
+    // setTimeout(function(){
+    //   svg.remove();
+    // },900)
+    });
+
+
+
+
 
   // READER JSON
 
@@ -166,36 +181,6 @@
       throw new Error("d3.json error");
     }
     else {
-
-      // TO SET THE AXIS DYNAMICALLY
-
-      // var Xdekat = 0 ;
-      // var Xjauh =  20;
-      // var Ydekat = 10;
-      // var Yjauh = 0;
-     
-      // x.domain([Xdekat, Xjauh]);
-      // y.domain([Ydekat, Yjauh]);
-      // Add a "g" element that provides a reference point for adding our axes.
-      // svg.append("g")
-      //     .attr("class", "x axis")
-      //     .attr("transform", "translate(0," + height + ")")
-      //     .call(xAxis)
-      //   .append("text") //add text to the axis
-      //     .attr("transform", "translate(" + width + ",-30)")
-      //     .attr("dy", "1.8em")
-      //     .attr("text-anchor", "end")
-      //     .text("X-Axis");
-      
-      // svg.append("g")
-      //     .attr("class", "y axis")
-      //     .call(yAxis)
-      //   .append("text") //add text to the axis
-      //     .attr("transform", "rotate(0)")
-      //     .attr("dy", "-0.8em")
-      //     .attr("text-anchor", "end")
-      //     .text("Y-Axis");
-      
      
       var node2 = svg.selectAll(".node2")
           .data(data2)
@@ -216,7 +201,30 @@
           .on("mouseout", hideToolTip)
           // .on("click", openEntry);
     }
-    
+    // setTimeout(function(){
+    //   svg.remove();
+    // },900)
   });
 
-}());
+setTimeout(function(){
+  $("#scatterplotStats").remove();
+  console.log("div clear");
+},800)
+
+setTimeout(function(){
+  var newElement = document.createElement('div');
+  newElement.id = "scatterplotStats";
+  
+  var list = document.getElementById('bg');
+  list.appendChild(newElement);
+  console.log(newElement);
+  },900)
+
+
+
+
+
+
+// },1000)
+
+}
