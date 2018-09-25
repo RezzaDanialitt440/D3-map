@@ -73,8 +73,8 @@ function Map() {
         "top": (d3.event.pageY - tipsize.dy - 5) + "px",
         "left": (d3.event.pageX - tipsize.dx - 5) + "px"
       }).html("<span><b>" + d.tag_id + ": " + "<br/>" + 
-            "X-axis: " + d.x + "<br/>")
-  //           "Y-axis: " + d.y + "<br/>");
+            "X-axis: " + d.x + "<br/>" +
+            "Y-axis: " + d.y + "<br/>");
   }
   
   /* 
@@ -88,8 +88,34 @@ function Map() {
       "opacity": 0
     }).html("");
   }
+
+  function checkType(arg) {
+    return arg !== "Reader" ? "blue" : "red";
+  }
+
+  queue()
+	.defer(d3.json, 'https://www.nodus-ecosystem.com:3250/reader_info')
+	.defer(d3.json, 'document.json')
+  .await(makeMyMap);
   
-  var url = "https://www.nodus-ecosystem.com:3250/tag_dashinfo";
+  function makeMyMap(error, new_reader, new_circle) {
+    var node = svg.selectAll(".node")
+          .data(data)
+        .enter().append("g")
+          .attr("class", "node")
+          .attr("x", (d) => { return x(d.x); })
+          .attr("y", (d) => { return y(d.y); });
+
+          node.append("circle")
+          .attr("cx", (d) => { return x(d.x); })
+          .attr("cy", (d) => { return y(d.y); })
+          .attr("r", 5)
+          .attr("fill", 'new_reader')
+
+  }
+
+  
+  var url = "https://www.nodus-ecosystem.com:3250/reader_info";
   
 
   d3.json(url, (error, data) => {
@@ -139,7 +165,7 @@ function Map() {
           .attr("cx", (d) => { return x(d.x); })
           .attr("cy", (d) => { return y(d.y); })
           .attr("r", 5)
-          .attr("fill","red")
+          .attr("fill", (d) => { return checkType(d.type); })
 
 
           
@@ -149,6 +175,7 @@ function Map() {
     }
     
     });
+
     setTimeout(function(){
       $("#scatterplotStats").remove();
       console.log("div clear");
@@ -165,57 +192,6 @@ function Map() {
     
 
     }
-
-
-  // READER JSON
-
-  var y = d3.scale.linear().range([0, height]);
-  var x = d3.scale.linear().range([0, width]);
-
-  var svg = d3.select("#scatterplotStats").append("svg")
-      .attr("height", height + margin.top + margin.bottom)
-      .attr("width", width + margin.left + margin.right);
-  
-  svg.append("rect")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("fill", "blue")
-        .attr("fill-opacity", 0);
-  // It also adds a g element that provides a reference point for adding our axes.  
-  svg = svg.append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  var url2 = "https://www.nodus-ecosystem.com:3250/reader_info";
-  d3.json(url2, (error, data2) => {
-    if(error) {
-      throw new Error("d3.json error");
-    }
-    else {
-     
-      var node2 = svg.selectAll(".node2")
-          .data(data2)
-        .enter().append("g")
-          .attr("class", "node2")
-          .attr("x", (d) => { return x(d.x); })
-          .attr("y", (d) => { return y(d.y); });
-      
-      node2.append("circle")
-          .attr("cx", (d) => { return x(d.x); })
-          .attr("cy", (d) => { return y(d.y); })
-          .attr("r", 7)
-          .attr("fill","green")
-
-
- 
-          .on("mouseover", showToolTip)
-          .on("mouseout", hideToolTip)
-     
-    }
-   
-  });
-
 
 
 

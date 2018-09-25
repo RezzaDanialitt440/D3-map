@@ -7,6 +7,12 @@ h1, h3, p{
   text-align:center;
 }
 
+.chart-container {
+  width:50%;
+  height:50%;
+  border: 1px dotted silver;
+}
+
 #scatterplot-stats {
   text-align: center;
 }
@@ -25,7 +31,7 @@ circle {
   stroke: red;
 }
 
-reader {
+.reader {
   stroke: aquamarine;
 }
 
@@ -48,6 +54,13 @@ reader {
   margin: 60px;
   width: 1200px;
   height: 500px;
-  
-  
 }
+.new_cicle{
+fill: red
+}
+
+.new_reader{
+  fill: blue
+}
+  
+  
