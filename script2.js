@@ -1,13 +1,3 @@
-
-  
-setInterval(Map,2000);
-
-
-
-
-function Map() {
-  
-
   //our JavaScript section starts and the first thing that happens is that we set the size of the area that we’re going to use for the chart and the margins;
   var margin = { top: 60, left: 60, bottom: 60, right: 60 } 
   var height = 480, width = 1200;
@@ -33,7 +23,7 @@ function Map() {
   var svg = d3.select("#scatterplotStats").append("svg")
       .attr("height", height + margin.top + margin.bottom)
       .attr("width", width + margin.left + margin.right)
-      .attr('viewBox','0 0' + height +' ' + width );
+      .attr('viewBox', "0 0480 1200" );
   
   svg.append("rect")
         .attr("width", width + margin.left + margin.right)
@@ -94,68 +84,57 @@ function Map() {
   queue()
     .defer(d3.json,'json2.json')
     .defer(d3.json,'json1.json')
-    .await(function(error, reader, tag){
-      if(error) {
-            throw new Error("Node JSON error");
-          }
+    .await(updateGraph)
+    
+    
+    function updateGraph (error, reader, tag){
+      setInterval(function(){
+       
       console.log(tag)
       console.log(reader)
 
-      var Xdekat = 0 ;
-      var Xjauh =  20;
-      var Ydekat = 10;
-      var Yjauh = 0;
-     
-      x.domain([Xdekat, Xjauh]);
-      y.domain([Ydekat, Yjauh]);
+      if(error) {
+        throw new Error("Node JSON error");
+      }
+  // console.log(tag)
+  // console.log(reader)
 
-      var node = svg.selectAll(".node")
-          .data(tag)
-        .enter().append("g")
-          .attr("class", "node")
-          .attr("x", (d) => { return x(d.x); })
-          .attr("y", (d) => { return y(d.y); });
-      
-      node.append("circle")
-          .attr("cx", (d) => { return x(d.x); })
-          .attr("cy", (d) => { return y(d.y); })
-          .attr("r", 5)
-          .attr("fill","blue")
+  var Xdekat = 0 ;
+  var Xjauh =  20;
+  var Ydekat = 10;
+  var Yjauh = 0;
+ 
+  x.domain([Xdekat, Xjauh]);
+  y.domain([Ydekat, Yjauh]);
 
-      var node2 = svg.selectAll(".node2")
-          .data(tag)
-        .enter().append("g")
-          .attr("class", "reader")
-          .attr("x", (d) => { return x(d.x); })
-          .attr("y", (d) => { return y(d.y); });
-      
-      node2.append("circle")
-          .attr("cx", (d) => { return x(d.x); })
-          .attr("cy", (d) => { return y(d.y); })
-          .attr("r", 5)
-          .attr("fill","green")
-
-    })
+  var node = svg.selectAll(".node")
+      .data(tag)
+    .enter().append("g")
+      .attr("class", "node")
+      .attr("x", (d) => { return x(d.x); })
+      .attr("y", (d) => { return y(d.y); });
   
+  node.append("circle")
+      .attr("cx", (d) => { return x(d.x); })
+      .attr("cy", (d) => { return y(d.y); })
+      .attr("r", 5)
+      .attr("fill","blue")
+
+  var node2 = svg.selectAll(".node2")
+      .data(reader)
+    .enter().append("g")
+      .attr("class", "reader")
+      .attr("x", (d) => { return x(d.x); })
+      .attr("y", (d) => { return y(d.y); });
   
+  node2.append("circle")
+      .attr("cx", (d) => { return x(d.x); })
+      .attr("cy", (d) => { return y(d.y); })
+      .attr("r", 5)
+      .attr("fill","green")
 
-
-    setTimeout(function(){
-      $("#scatterplotStats").remove();
-      console.log("div clear");
-    },1000)
-    
-    setTimeout(function(){
-      var newElement = document.createElement('div');
-      newElement.id = "scatterplotStats";
+      },1000)
       
-      var list = document.getElementById('bg');
-      list.appendChild(newElement);
-      console.log(newElement);
-      },1100)
-    
 
-    }
-
-
+}
 
