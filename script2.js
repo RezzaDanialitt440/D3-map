@@ -23,7 +23,7 @@
   var svg = d3.select("#scatterplotStats").append("svg")
       .attr("height", height + margin.top + margin.bottom)
       .attr("width", width + margin.left + margin.right)
-      .attr('viewBox', "0 0480 1200" );
+
   
   svg.append("rect")
         .attr("width", width + margin.left + margin.right)
@@ -31,7 +31,8 @@
         .attr("x", 0)
         .attr("y", 0)
         .attr("fill", "blue")
-        .attr("fill-opacity", 0);
+        .attr("fill-opacity", 0)
+        .attr('viewBox', "0 0 480 1200" );
   // It also adds a g element that provides a reference point for adding our axes.  
   svg = svg.append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -89,16 +90,13 @@
     
     function updateGraph (error, reader, tag){
       setInterval(function(){
-       
+      console.log("Data Transfered") 
       console.log(tag)
       console.log(reader)
 
       if(error) {
         throw new Error("Node JSON error");
       }
-  // console.log(tag)
-  // console.log(reader)
-
   var Xdekat = 0 ;
   var Xjauh =  20;
   var Ydekat = 10;
@@ -110,7 +108,7 @@
   var node = svg.selectAll(".node")
       .data(tag)
     .enter().append("g")
-      .attr("class", "node")
+      .attr("class", "reader")
       .attr("x", (d) => { return x(d.x); })
       .attr("y", (d) => { return y(d.y); });
   
@@ -120,10 +118,11 @@
       .attr("r", 5)
       .attr("fill","blue")
 
+
   var node2 = svg.selectAll(".node2")
       .data(reader)
     .enter().append("g")
-      .attr("class", "reader")
+      .attr("class", "no")
       .attr("x", (d) => { return x(d.x); })
       .attr("y", (d) => { return y(d.y); });
   
@@ -132,9 +131,8 @@
       .attr("cy", (d) => { return y(d.y); })
       .attr("r", 5)
       .attr("fill","green")
+      console.log("reader printed")
 
       },1000)
-      
-
 }
 

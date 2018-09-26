@@ -52,8 +52,8 @@ circle {
   background-image: url(LDMS\ map2.svg);
   background-size: cover;
   margin: 60px;
-  width: 1200px;
-  height: 500px;
+  width: 100%;
+  height: 100%;
 }
 .new_cicle{
 fill: red
